@@ -15,21 +15,21 @@
     </a>
 
     <nav>
-      <button class="admin-nav active" data-view="dashboard">▦ Dashboard</button>
-      <button class="admin-nav" data-view="menu">🍽 Menu</button>
-      <button class="admin-nav" data-view="orders">🧾 Orders</button>
-      <button class="admin-nav" data-view="bookings">🪑 Bookings</button>
+      <button class="admin-nav active" data-view="dashboard">Dashboard</button>
+      <button class="admin-nav" data-view="menu">Menu</button>
+      <button class="admin-nav" data-view="orders">Orders</button>
+      <button class="admin-nav" data-view="bookings">Bookings</button>
     </nav>
 
     <div class="sidebar-bottom">
-      <a href="index.html">← Back to Website</a>
+      <a href="index.html">Back to Website</a>
       <button id="logoutBtn">Logout</button>
     </div>
   </aside>
 
   <main class="admin-main">
     <header class="admin-topbar">
-      <button class="icon-btn admin-menu-btn" id="adminMenuBtn">☰</button>
+      <button class="icon-btn admin-menu-btn" id="adminMenuBtn">Menu</button>
       <div>
         <small>Management Console</small>
         <h2 id="adminTitle">Dashboard</h2>
@@ -41,28 +41,47 @@
     </header>
 
     <section class="admin-view active" id="view-dashboard">
-      <div class="stats-grid">
-        <article><small>Total Orders</small><strong id="statOrders">0</strong><span>Stored locally</span></article>
-        <article><small>Revenue</small><strong id="statRevenue">₹0</strong><span>Demo total</span></article>
-        <article><small>Menu Items</small><strong id="statMenu">0</strong><span>Current dishes</span></article>
-        <article><small>Bookings</small><strong id="statBookings">0</strong><span>Reservations</span></article>
+      <div class="dashboard-filter-bar">
+        <div>
+          <small>Daily Overview</small>
+          <h3>Business Snapshot</h3>
+        </div>
+        <label class="dashboard-date-field">Select date
+          <input type="date" id="dashboardDate">
+        </label>
       </div>
 
-      <div class="admin-card">
-        <div class="card-title"><div><small>Recent Activity</small><h3>Latest Orders</h3></div></div>
-        <div id="recentOrders"></div>
+      <div class="stats-grid">
+        <article><small>Orders</small><strong id="statOrders">0</strong><span id="statOrdersLabel">Selected day</span></article>
+        <article><small>Revenue</small><strong id="statRevenue">₹0</strong><span>Completed + active orders</span></article>
+        <article><small>Menu Available</small><strong id="statMenu">0 / 0</strong><span>Available out of total dishes</span></article>
+        <article><small>Bookings</small><strong id="statBookings">0</strong><span>Reservations on selected day</span></article>
+      </div>
+
+      <div class="dashboard-activity-grid">
+        <div class="admin-card activity-card">
+          <div class="card-title"><div><small>Kitchen Queue</small><h3>Preparing Orders</h3></div><span class="status-pill active">Live</span></div>
+          <div id="preparingOrders"></div>
+        </div>
+        <div class="admin-card activity-card">
+          <div class="card-title"><div><small>Recent Activity</small><h3>Completed Orders</h3></div><span class="status-pill complete">Done</span></div>
+          <div id="completedOrders"></div>
+        </div>
       </div>
     </section>
 
     <section class="admin-view" id="view-menu">
       <div class="admin-card">
-        <div class="card-title">
+        <div class="card-title admin-card-toolbar">
           <div><small>Catalog</small><h3>Manage Menu</h3></div>
-          <button class="btn btn-primary" id="openAddItem">+ Add Item</button>
+          <div class="admin-toolbar-actions">
+            <select id="adminCategoryFilter" aria-label="Filter menu category"><option value="All">All Categories</option></select>
+            <button class="btn btn-primary" id="openAddItem">+ Add Item</button>
+          </div>
         </div>
         <div class="table-wrap">
-          <table>
-            <thead><tr><th>Dish</th><th>Category</th><th>Price</th><th>Type</th><th>Action</th></tr></thead>
+          <table class="admin-menu-table">
+            <thead><tr><th>Dish</th><th>Category</th><th>Price</th><th>Type</th><th>Availability</th><th>Action</th></tr></thead>
             <tbody id="adminMenuBody"></tbody>
           </table>
         </div>
@@ -74,7 +93,7 @@
         <div class="card-title"><div><small>Operations</small><h3>Customer Orders</h3></div></div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Type</th><th>Status</th></tr></thead>
+            <thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Type</th><th>Status</th><th>Action</th></tr></thead>
             <tbody id="ordersBody"></tbody>
           </table>
         </div>
@@ -82,33 +101,85 @@
     </section>
 
     <section class="admin-view" id="view-bookings">
-      <div class="admin-card">
-        <div class="card-title"><div><small>Dine In</small><h3>Reservations</h3></div></div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Name</th><th>Phone</th><th>Date</th><th>Time</th><th>Guests</th><th>Seating</th></tr></thead>
-            <tbody id="bookingsBody"></tbody>
-          </table>
+      <div class="booking-admin-grid">
+        <div class="admin-card">
+          <div class="card-title"><div><small>Dine In</small><h3>Reserved</h3></div></div>
+          <div class="table-wrap"><table class="booking-table"><thead><tr><th>Name</th><th>Date</th><th>Time</th><th>Guests</th><th>Seating</th><th>Action</th></tr></thead><tbody id="reservedBookingsBody"></tbody></table></div>
+        </div>
+        <div class="admin-card">
+          <div class="card-title"><div><small>Dine In</small><h3>Checked In</h3></div></div>
+          <div class="table-wrap"><table class="booking-table"><thead><tr><th>Name</th><th>Date</th><th>Time</th><th>Guests</th><th>Seating</th><th>Action</th></tr></thead><tbody id="checkedInBookingsBody"></tbody></table></div>
+        </div>
+        <div class="admin-card">
+          <div class="card-title"><div><small>Dine In</small><h3>Cancelled</h3></div></div>
+          <div class="table-wrap"><table class="booking-table"><thead><tr><th>Name</th><th>Date</th><th>Time</th><th>Guests</th><th>Seating</th><th>Action</th></tr></thead><tbody id="cancelledBookingsBody"></tbody></table></div>
         </div>
       </div>
     </section>
   </main>
 
   <div class="modal" id="itemModal" aria-hidden="true">
-    <div class="modal-card">
+    <div class="modal-card admin-modal-card">
       <div class="modal-head">
-        <div><small>Menu Management</small><h3>Add New Dish</h3></div>
-        <button class="icon-btn" id="closeItemModal">✕</button>
+        <div><small>Menu Management</small><h3 id="itemModalTitle">Add New Dish</h3></div>
+        <button class="icon-btn" id="closeItemModal">×</button>
       </div>
-      <form id="addItemForm" class="form-grid">
+      <form id="itemForm" class="form-grid">
+        <input type="hidden" name="id">
         <label>Dish Name<input name="name" required></label>
         <label>Category<input name="category" required placeholder="Bowls, Pizza..."></label>
         <label>Price<input name="price" required type="number" min="1"></label>
         <label>Food Type<select name="type"><option>Veg</option><option>Non-Veg</option></select></label>
+        <label class="span-2">Image URL<input name="image" type="url" placeholder="https://..."></label>
         <label class="span-2">Description<textarea name="description" required></textarea></label>
-        <label>Emoji<input name="emoji" placeholder="🍛" maxlength="4"></label>
+        <label>Emoji / Icon (optional)<input name="emoji" placeholder="Optional"></label>
         <label>Rating<input name="rating" type="number" min="1" max="5" step="0.1" value="4.5"></label>
-        <button class="btn btn-primary full span-2">Add Dish</button>
+        <label class="availability-check span-2"><input type="checkbox" name="available" checked><span>Available for ordering</span></label>
+        <button class="btn btn-primary full span-2" id="itemSubmitBtn">Save Dish</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="orderModal" aria-hidden="true">
+    <div class="modal-card admin-modal-card wide-modal-card">
+      <div class="modal-head">
+        <div><small>Order Management</small><h3>Edit Customer Order</h3></div>
+        <button class="icon-btn" data-close-admin-modal="orderModal">×</button>
+      </div>
+      <form id="orderEditForm" class="form-grid">
+        <input type="hidden" name="id">
+        <label>Customer Name<input name="customer" required></label>
+        <label>Phone<input name="phone" required></label>
+        <label class="span-2">Address<textarea name="address"></textarea></label>
+        <label>Order Type<select name="orderType"><option>Delivery</option><option>Pickup</option></select></label>
+        <label>Status<select name="status"><option>Received</option><option>Preparing</option><option>Ready</option><option>Out for Delivery</option><option>Completed</option><option>Cancelled</option></select></label>
+        <label class="span-2">Notes<textarea name="notes"></textarea></label>
+        <div class="span-2 order-items-editor">
+          <div class="editor-title"><strong>Ordered Items</strong><small>Quantity can be updated below.</small></div>
+          <div id="orderItemsEditor"></div>
+        </div>
+        <div class="span-2 order-total-preview"><span>Calculated total</span><strong id="orderEditTotal">₹0</strong></div>
+        <button class="btn btn-primary full span-2" type="submit">Save Order Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="bookingModalAdmin" aria-hidden="true">
+    <div class="modal-card admin-modal-card">
+      <div class="modal-head">
+        <div><small>Reservation Management</small><h3>Edit Reservation</h3></div>
+        <button class="icon-btn" data-close-admin-modal="bookingModalAdmin">×</button>
+      </div>
+      <form id="bookingEditForm" class="form-grid">
+        <input type="hidden" name="id">
+        <label>Name<input name="name" required></label>
+        <label>Phone<input name="phone" required></label>
+        <label>Date<input name="date" type="date" required></label>
+        <label>Time<input name="time" type="time" required></label>
+        <label>Guests<select name="guests" required><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></label>
+        <label>Seating<select name="seating"><option>Indoor</option><option>Outdoor</option><option>No preference</option></select></label>
+        <label class="span-2">Status<select name="status"><option>Reserved</option><option>Checked In</option><option>Cancelled</option></select></label>
+        <button class="btn btn-primary full span-2" type="submit">Save Reservation</button>
       </form>
     </div>
   </div>

@@ -1,7 +1,7 @@
 const menuGrid = document.getElementById("menuGrid");
 const categoryTabs = document.getElementById("categoryTabs");
 const searchInput = document.getElementById("menuSearch");
-const vegOnly = document.getElementById("vegOnly");
+const foodFilterButtons = document.querySelectorAll("[data-food-filter]");
 const cartDrawer = document.getElementById("cartDrawer");
 const overlay = document.getElementById("overlay");
 const cartItemsBox = document.getElementById("cartItems");
@@ -13,9 +13,10 @@ const toast = document.getElementById("toast");
 let menu = getMenuData();
 let cart = JSON.parse(localStorage.getItem("urbanbite_cart") || "[]");
 let activeCategory = "All";
+let activeFoodFilter = "All";
 let couponApplied = localStorage.getItem("urbanbite_coupon") === "URBAN15";
 
-function money(value){ return `₹${Math.round(value)}`; }
+function money(value){ return `₹${Math.round(Number(value) || 0)}`; }
 
 function showToast(message){
   toast.textContent = message;
@@ -42,25 +43,31 @@ function renderCategories(){
   });
 }
 
+function getFoodTypeLabel(type){
+  return type === "Veg" ? "Veg" : "Non-Veg";
+}
+
 function renderMenu(){
+  menu = getMenuData();
   const query = searchInput.value.trim().toLowerCase();
   const filtered = menu.filter(item=>{
     const categoryMatch = activeCategory === "All" || item.category === activeCategory;
     const searchMatch = item.name.toLowerCase().includes(query) || item.description.toLowerCase().includes(query);
-    const vegMatch = !vegOnly.checked || item.type === "Veg";
-    return categoryMatch && searchMatch && vegMatch;
+    const typeMatch = activeFoodFilter === "All" || item.type === activeFoodFilter;
+    return categoryMatch && searchMatch && typeMatch;
   });
 
   if(!filtered.length){
-    menuGrid.innerHTML = `<div class="empty-state">No dishes found. Try another search or category.</div>`;
+    menuGrid.innerHTML = `<div class="empty-state">No dishes found. Try another search or filter.</div>`;
     return;
   }
 
   menuGrid.innerHTML = filtered.map(item=>`
-    <article class="menu-card">
+    <article class="menu-card ${item.available === false ? "is-unavailable" : ""}">
       <div class="menu-image">
-        <span class="food-badge">${item.type === "Veg" ? "🟢 Veg" : "🔴 Non-Veg"}</span>
-        <span>${item.emoji}</span>
+        <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80'">
+        <span class="food-badge ${item.type === "Veg" ? "veg" : "nonveg"}"><i></i>${getFoodTypeLabel(item.type)}</span>
+        ${item.available === false ? `<span class="stock-badge">Out of stock</span>` : ""}
       </div>
       <div class="menu-card-body">
         <div class="menu-card-top">
@@ -70,7 +77,9 @@ function renderMenu(){
         <p>${item.description}</p>
         <div class="menu-card-bottom">
           <span class="price">${money(item.price)}</span>
-          <button class="add-btn" data-add="${item.id}">Add +</button>
+          <button class="add-btn" data-add="${item.id}" ${item.available === false ? "disabled" : ""}>
+            ${item.available === false ? "Unavailable" : "Add to cart"}
+          </button>
         </div>
       </div>
     </article>
@@ -87,6 +96,12 @@ function saveCart(){
 }
 
 function addToCart(id){
+  menu = getMenuData();
+  const menuItem = menu.find(item => item.id === id);
+  if(!menuItem || menuItem.available === false){
+    showToast("This item is currently out of stock");
+    return;
+  }
   const existing = cart.find(item=>item.id===id);
   if(existing) existing.qty++;
   else cart.push({id,qty:1});
@@ -97,6 +112,11 @@ function addToCart(id){
 function changeQty(id, change){
   const item = cart.find(x=>x.id===id);
   if(!item) return;
+  const menuItem = getMenuData().find(x => x.id === id);
+  if(change > 0 && menuItem?.available === false){
+    showToast("This item is currently out of stock");
+    return;
+  }
   item.qty += change;
   if(item.qty <= 0) cart = cart.filter(x=>x.id!==id);
   saveCart();
@@ -108,6 +128,7 @@ function removeFromCart(id){
 }
 
 function getCartDetails(){
+  menu = getMenuData();
   return cart.map(cartItem=>{
     const item = menu.find(x=>x.id===cartItem.id);
     return item ? {...item, qty:cartItem.qty} : null;
@@ -127,18 +148,18 @@ function updateCart(){
   cartCount.textContent = cart.reduce((sum,item)=>sum+item.qty,0);
 
   if(!details.length){
-    cartItemsBox.innerHTML = `<div class="cart-empty"><div style="font-size:3rem">🛒</div><p>Your cart is empty.</p></div>`;
+    cartItemsBox.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">Cart</div><p>Your cart is empty.</p></div>`;
   } else {
     cartItemsBox.innerHTML = details.map(item=>`
-      <div class="cart-item">
-        <div class="cart-item-icon">${item.emoji}</div>
+      <div class="cart-item ${item.available === false ? "cart-item-unavailable" : ""}">
+        <img class="cart-item-image" src="${item.image}" alt="${item.name}">
         <div>
           <h4>${item.name}</h4>
-          <small>${money(item.price)} each</small>
+          <small>${money(item.price)} each${item.available === false ? " · Out of stock" : ""}</small>
           <div class="qty-controls">
             <button data-minus="${item.id}">−</button>
             <strong>${item.qty}</strong>
-            <button data-plus="${item.id}">+</button>
+            <button data-plus="${item.id}" ${item.available === false ? "disabled" : ""}>+</button>
           </div>
           <button class="remove-item" data-remove="${item.id}">Remove</button>
         </div>
@@ -206,8 +227,13 @@ document.getElementById("checkoutBtn").addEventListener("click",()=>{
     return;
   }
 
-  const currentUser = JSON.parse(localStorage.getItem("urbanbite_current_user") || "null");
+  const unavailable = getCartDetails().filter(item => item.available === false);
+  if(unavailable.length){
+    showToast(`Remove out-of-stock item: ${unavailable[0].name}`);
+    return;
+  }
 
+  const currentUser = JSON.parse(localStorage.getItem("urbanbite_current_user") || "null");
   if(!currentUser || currentUser.role !== "user"){
     closeCart();
     alert("Login required! Please login or create an account before placing your order.");
@@ -237,6 +263,8 @@ document.getElementById("bookingForm").addEventListener("submit",e=>{
   e.preventDefault();
   const data = Object.fromEntries(new FormData(e.target).entries());
   data.id = Date.now();
+  data.status = "Reserved";
+  data.createdAt = new Date().toISOString();
   const bookings = JSON.parse(localStorage.getItem("urbanbite_bookings") || "[]");
   bookings.unshift(data);
   localStorage.setItem("urbanbite_bookings", JSON.stringify(bookings));
@@ -254,6 +282,13 @@ document.getElementById("checkoutForm").addEventListener("submit",e=>{
     alert("Your login session is missing. Please login before placing the order.");
     localStorage.setItem("urbanbite_return_after_login", "checkout");
     window.location.href = "login.html";
+    return;
+  }
+
+  const unavailable = getCartDetails().filter(item => item.available === false);
+  if(unavailable.length){
+    closeModal(checkoutModal);
+    showToast(`Remove out-of-stock item: ${unavailable[0].name}`);
     return;
   }
 
@@ -293,7 +328,13 @@ document.getElementById("checkoutForm").addEventListener("submit",e=>{
 });
 
 searchInput.addEventListener("input",renderMenu);
-vegOnly.addEventListener("change",renderMenu);
+foodFilterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    activeFoodFilter = button.dataset.foodFilter;
+    foodFilterButtons.forEach(btn => btn.classList.toggle("active", btn === button));
+    renderMenu();
+  });
+});
 
 const menuToggle = document.getElementById("menuToggle");
 const navLinks = document.getElementById("navLinks");
@@ -314,10 +355,10 @@ window.addEventListener("scroll",()=>{
 
 const currentUser = JSON.parse(localStorage.getItem("urbanbite_current_user") || "null");
 const accountBtn = document.getElementById("accountBtn");
-
 if(currentUser && currentUser.role === "user"){
-  accountBtn.textContent = `👤 ${currentUser.name.split(" ")[0]}`;
+  accountBtn.textContent = currentUser.name.split(" ")[0];
   accountBtn.href = "profile.html";
+  accountBtn.classList.add("account-active");
 } else {
   accountBtn.textContent = "Login";
   accountBtn.href = "login.html";
@@ -328,7 +369,6 @@ renderCategories();
 renderMenu();
 updateCart();
 
-// Return user to checkout after login when checkout triggered the login flow.
 const checkoutParams = new URLSearchParams(window.location.search);
 if(checkoutParams.get("checkout") === "1") {
   const returningUser = JSON.parse(localStorage.getItem("urbanbite_current_user") || "null");

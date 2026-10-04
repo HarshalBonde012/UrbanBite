@@ -1,26 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="UrbanBite - Premium Cloud Kitchen">
   <title>UrbanBite | Cloud Kitchen</title>
   <link rel="shortcut icon" href="fevicon.png" type="image/x-icon">
+  <link rel="preconnect" href="https://images.unsplash.com">
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
   <header class="site-header">
     <a class="brand" href="#home" aria-label="UrbanBite home">
       <span class="brand-mark">UB</span>
-      <span class="brand-copy">
-        <strong>UrbanBite</strong>
-        <small>Cloud Kitchen</small>
-      </span>
+      <span class="brand-copy"><strong>UrbanBite</strong><small>Cloud Kitchen</small></span>
     </a>
 
-    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
 
     <nav class="nav-links" id="navLinks">
       <a href="#home" class="active">Home</a>
@@ -32,7 +28,8 @@
 
     <div class="header-actions">
       <button class="icon-btn cart-open-btn" id="openCart" aria-label="Open cart">
-        🛒 <span id="cartCount">0</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.1 9.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L20 7H7"/><circle cx="10" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg>
+        <span id="cartCount">0</span>
       </button>
       <a class="btn btn-outline" href="login.html" id="accountBtn">Login</a>
     </div>
@@ -43,42 +40,28 @@
       <div class="hero-copy">
         <span class="eyebrow">Fresh • Fast • Premium</span>
         <h1>Good food.<br><span>Made simple.</span></h1>
-        <p>
-          A premium cloud kitchen experience for delivery, pickup and dine-in.
-          Explore the menu, customize your order and checkout in seconds.
-        </p>
+        <p>A premium cloud kitchen experience for delivery, pickup and dine-in. Explore a fresh menu, customize your order and checkout in seconds.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#menu">Explore Menu</a>
           <button class="btn btn-ghost" data-open-booking>Book a Table</button>
         </div>
-
         <div class="hero-stats">
-          <div><strong>30+</strong><span>Dishes</span></div>
-          <div><strong>4.8 ★</strong><span>Rating</span></div>
-          <!-- <div><strong>25 min</strong><span>Avg. Delivery</span></div> -->
+          <div><strong>30+</strong><span>Fresh dishes</span></div>
+          <div><strong>4.8 / 5</strong><span>Customer rating</span></div>
+          <div><strong>Fast</strong><span>Delivery & pickup</span></div>
         </div>
       </div>
 
-      <div class="hero-visual" aria-hidden="true">
-        <div class="food-orbit">
-          <div class="plate">
-            <div class="food-bowl">🍛</div>
-          </div>
-          <div class="floating-card card-1">
-            <span>🔥</span>
-            <div><strong>Best Seller</strong><small>Chef's Special Bowl</small></div>
-          </div>
-          <div class="floating-card card-2">
-            <span>⚡</span>
-            <div><strong>Fast Delivery</strong><small>Fresh & hot</small></div>
-          </div>
+      <div class="hero-visual">
+        <div class="hero-photo-wrap">
+          <img class="hero-photo" src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1200&q=88" alt="Fresh UrbanBite meal bowl">
+          <div class="floating-card card-1"><strong>Best Seller</strong><small>Chef's Special Bowl</small></div>
+          <div class="floating-card card-2"><strong>Made Fresh</strong><small>Prepared after you order</small></div>
         </div>
       </div>
     </section>
 
-    
-
-    <section class="section promo-grid">
+    <section class="section promo-grid" aria-label="Current offers">
       <article class="promo-card dark-card">
         <span class="eyebrow">Online Special</span>
         <h3>Flat 15% off above ₹699</h3>
@@ -93,52 +76,55 @@
       </article>
     </section>
 
-
-    <section class="feature-strip">
-      <article><span>🥬</span>
+    <section class="feature-strip" aria-label="UrbanBite benefits">
+      <article>
+        <span class="feature-icon"><svg viewBox="0 0 24 24"><path d="M19 3C12 3 6 7 6 13c0 4 3 7 7 7 6 0 8-7 8-15V3h-2Z"/><path d="M5 21c2-5 6-9 12-12"/></svg></span>
         <div><strong>Fresh Ingredients</strong><small>Prepared daily</small></div>
       </article>
-      <article><span>👨‍🍳</span>
+      <article>
+        <span class="feature-icon"><svg viewBox="0 0 24 24"><path d="M4 13h16"/><path d="M6 13a6 6 0 0 1 12 0"/><path d="M12 7V4"/><path d="M4 17h16"/></svg></span>
         <div><strong>Chef Crafted</strong><small>Made to order</small></div>
       </article>
-      <article><span>🛵</span>
+      <article>
+        <span class="feature-icon"><svg viewBox="0 0 24 24"><path d="M3 6h11v10H3z"/><path d="M14 9h4l3 3v4h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span>
         <div><strong>Fast Delivery</strong><small>Quick service</small></div>
       </article>
-      <article><span>💳</span>
+      <article>
+        <span class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M7 15h4"/></svg></span>
         <div><strong>Easy Payment</strong><small>UPI / Card / COD</small></div>
       </article>
     </section>
-
 
     <section class="section menu-section" id="menu">
       <div class="section-heading">
         <div>
           <span class="eyebrow">Our Menu</span>
           <h2>Choose your craving.</h2>
+          <p class="section-subtitle">Browse by category, food preference or search a dish directly.</p>
         </div>
         <label class="search-box">
-          <span>⌕</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
           <input type="search" id="menuSearch" placeholder="Search dishes..." aria-label="Search dishes">
         </label>
       </div>
 
       <div class="menu-toolbar">
         <div class="category-tabs" id="categoryTabs"></div>
-        <label class="veg-filter">
-          <input type="checkbox" id="vegOnly">
-          <span>Veg only</span>
-        </label>
+        <div class="food-type-filter" aria-label="Food type filter">
+          <button class="active" type="button" data-food-filter="All">All</button>
+          <button type="button" data-food-filter="Veg"><i class="veg-dot"></i>Veg</button>
+          <button type="button" data-food-filter="Non-Veg"><i class="nonveg-dot"></i>Non-Veg</button>
+        </div>
       </div>
 
       <div class="menu-grid" id="menuGrid"></div>
     </section>
 
-    
-
     <section class="section split-section" id="about">
-      <div class="about-visual">
+      <div class="about-visual about-photo-card">
+        <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1200&q=88" alt="Professional kitchen preparing fresh food" loading="lazy">
         <div class="about-panel">
-          <span>👨‍🍳</span>
+          <span class="eyebrow">Inside UrbanBite</span>
           <h3>Made fresh. Never rushed.</h3>
           <p>Clean preparation, balanced flavours and quality ingredients.</p>
         </div>
@@ -146,15 +132,12 @@
       <div class="about-copy">
         <span class="eyebrow">About UrbanBite</span>
         <h2>Built for food lovers and busy days.</h2>
-        <p>
-          UrbanBite is a modern cloud kitchen concept focused on consistent taste,
-          hygienic preparation and a smooth digital ordering experience.
-        </p>
+        <p>UrbanBite is a modern cloud kitchen concept focused on consistent taste, hygienic preparation and a smooth digital ordering experience.</p>
         <div class="check-list">
-          <p>✓ Fresh ingredients & hygienic kitchen</p>
-          <p>✓ Veg and non-veg options</p>
-          <p>✓ Delivery, pickup and dine-in</p>
-          <p>✓ Notes for spice level and special requests</p>
+          <p><span>01</span> Fresh ingredients & hygienic kitchen</p>
+          <p><span>02</span> Veg and non-veg options</p>
+          <p><span>03</span> Delivery, pickup and dine-in</p>
+          <p><span>04</span> Notes for spice level and special requests</p>
         </div>
       </div>
     </section>
@@ -172,24 +155,12 @@
 
     <section class="section testimonials">
       <div class="section-heading">
-        <div>
-          <span class="eyebrow">Customer Love</span>
-          <h2>Why people come back.</h2>
-        </div>
+        <div><span class="eyebrow">Customer Love</span><h2>Why people come back.</h2></div>
       </div>
       <div class="testimonial-grid">
-        <article>
-          <div class="stars">★★★★★</div>
-          <p>Fast delivery, neat packaging and genuinely fresh food.</p><strong>Mr. Alok</strong>
-        </article>
-        <article>
-          <div class="stars">★★★★★</div>
-          <p>The ordering experience is simple and the bowl combos are great.</p><strong>Mr. Sanket</strong>
-        </article>
-        <article>
-          <div class="stars">★★★★★</div>
-          <p>A very convenient option for quick office lunch orders.</p><strong>Mr. Nagesh</strong>
-        </article>
+        <article><div class="stars">★★★★★</div><p>Fast delivery, neat packaging and genuinely fresh food.</p><strong>Mr. Alok</strong></article>
+        <article><div class="stars">★★★★★</div><p>The ordering experience is simple and the bowl combos are great.</p><strong>Mr. Sanket</strong></article>
+        <article><div class="stars">★★★★★</div><p>A very convenient option for quick office lunch orders.</p><strong>Mr. Nagesh</strong></article>
       </div>
     </section>
 
@@ -197,31 +168,64 @@
       <div>
         <span class="eyebrow">Contact</span>
         <h2>Need help with an order?</h2>
-        <p>Replace these demo details with your actual cloud kitchen contact information.</p>
+        <p>Our team can help with delivery, dine-in reservations, menu questions and bulk orders.</p>
       </div>
       <div class="contact-cards">
-        <a href="tel:+919999999999">📞 +91 92841-87595</a>
-        <a href="mailto:hello@urbanbite.in">✉️ hello@urbanbite.in</a>
-        <span>📍Pune/Amravati/Nagpur/Akola, Maharashtra, India</span>
+        <a href="tel:+919284187595"><span class="contact-icon">Call</span><strong>+91 92841-87595</strong></a>
+        <a href="mailto:hello@urbanbite.in"><span class="contact-icon">Mail</span><strong>hello@urbanbite.in</strong></a>
+        <span><span class="contact-icon">Visit</span><strong>Pune / Amravati / Nagpur / Akola, Maharashtra</strong></span>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="brand">
-      <span class="brand-mark">UB</span>
-      <span class="brand-copy"><strong>UrbanBite</strong><small>Cloud Kitchen</small></span>
+  <footer class="commercial-footer">
+    <div class="footer-main">
+      <div class="footer-brand-column">
+        <div class="brand footer-brand">
+          <span class="brand-mark">UB</span>
+          <span class="brand-copy"><strong>UrbanBite</strong><small>Cloud Kitchen</small></span>
+        </div>
+        <p>Freshly prepared food for delivery, pickup and dine-in — built around quality, convenience and a smoother ordering experience.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Instagram">Instagram</a>
+          <a href="#" aria-label="Facebook">Facebook</a>
+          <a href="#" aria-label="WhatsApp">WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h4>Explore</h4>
+        <a href="#menu">Menu</a>
+        <a href="#dinein">Dine In</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>Service</h4>
+        <a href="#menu">Delivery</a>
+        <a href="#menu">Pickup</a>
+        <button type="button" data-open-booking>Table Booking</button>
+        <a href="login.html">Customer Login</a>
+      </div>
+
+      <div class="footer-column footer-contact-column">
+        <h4>Order & Support</h4>
+        <a href="tel:+919284187595">+91 92841-87595</a>
+        <a href="mailto:hello@urbanbite.in">hello@urbanbite.in</a>
+        <p>Open daily<br><strong>11:00 AM – 11:00 PM</strong></p>
+      </div>
     </div>
-    <p>© <span id="year"></span> UrbanBite. HTML • CSS • JavaScript</p>
-    <a href="admin.html">Harshal Bonde</a>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> UrbanBite. All rights reserved.</p>
+      <div><a href="admin.html">Admin</a><span>•</span><span>Built by Harshal Bonde</span></div>
+    </div>
   </footer>
 
   <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
     <div class="drawer-head">
-      <div><small>Your Order</small>
-        <h3>Cart</h3>
-      </div>
-      <button class="icon-btn" id="closeCart" aria-label="Close cart">✕</button>
+      <div><small>Your Order</small><h3>Cart</h3></div>
+      <button class="icon-btn" id="closeCart" aria-label="Close cart">×</button>
     </div>
     <div class="cart-items" id="cartItems"></div>
     <div class="coupon-row">
@@ -242,10 +246,8 @@
   <div class="modal" id="bookingModal" aria-hidden="true">
     <div class="modal-card">
       <div class="modal-head">
-        <div><small>Dine In</small>
-          <h3>Reserve a Table</h3>
-        </div>
-        <button class="icon-btn modal-close" data-close-modal>✕</button>
+        <div><small>Dine In</small><h3>Reserve a Table</h3></div>
+        <button class="icon-btn modal-close" data-close-modal>×</button>
       </div>
       <form id="bookingForm" class="form-grid">
         <label>Full Name<input required name="name" placeholder="Your name"></label>
@@ -253,22 +255,10 @@
         <label>Date<input required name="date" type="date"></label>
         <label>Time<input required name="time" type="time"></label>
         <label>Guests
-          <select required name="guests">
-            <option value="">Select</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6+</option>
-          </select>
+          <select required name="guests"><option value="">Select</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select>
         </label>
         <label>Seating
-          <select name="seating">
-            <option>Indoor</option>
-            <option>Outdoor</option>
-            <option>No preference</option>
-          </select>
+          <select name="seating"><option>Indoor</option><option>Outdoor</option><option>No preference</option></select>
         </label>
         <button class="btn btn-primary full span-2" type="submit">Confirm Reservation</button>
       </form>
@@ -278,31 +268,20 @@
   <div class="modal" id="checkoutModal" aria-hidden="true">
     <div class="modal-card checkout-card">
       <div class="modal-head">
-        <div><small>Checkout</small>
-          <h3>Complete Your Order</h3>
-        </div>
-        <button class="icon-btn modal-close" data-close-modal>✕</button>
+        <div><small>Checkout</small><h3>Complete Your Order</h3></div>
+        <button class="icon-btn modal-close" data-close-modal>×</button>
       </div>
       <form id="checkoutForm" class="form-grid">
         <label>Full Name<input required name="name" placeholder="Your name"></label>
         <label>Phone<input required name="phone" type="tel" placeholder="Mobile number"></label>
-        <label class="span-2">Delivery Address<textarea required name="address"
-            placeholder="House no, area, landmark"></textarea></label>
+        <label class="span-2">Delivery Address<textarea required name="address" placeholder="House no, area, landmark"></textarea></label>
         <label>Order Type
-          <select name="orderType" id="orderType">
-            <option>Delivery</option>
-            <option>Pickup</option>
-          </select>
+          <select name="orderType" id="orderType"><option>Delivery</option><option>Pickup</option></select>
         </label>
         <label>Payment
-          <select name="payment">
-            <option>Cash on Delivery</option>
-            <option>UPI (Any)</option>
-            <option>Card (Debit/Credit)</option>
-          </select>
+          <select name="payment"><option>Cash on Delivery</option><option>UPI (Any)</option><option>Card (Debit/Credit)</option></select>
         </label>
-        <label class="span-2">Instructions<textarea name="notes"
-            placeholder="Less spicy, no onion, etc."></textarea></label>
+        <label class="span-2">Instructions<textarea name="notes" placeholder="Less spicy, no onion, etc."></textarea></label>
         <button class="btn btn-primary full span-2" type="submit">Place Order</button>
       </form>
     </div>
@@ -313,5 +292,4 @@
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
-
 </html>
