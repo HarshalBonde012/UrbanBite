@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | UrbanBite</title>
+  <link rel="shortcut icon" href="fevicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="auth-page">
+  <a class="brand auth-brand" href="index.html">
+    <span class="brand-mark">UB</span>
+    <span class="brand-copy"><strong>UrbanBite</strong><small>Cloud Kitchen</small></span>
+  </a>
+
+  <main class="auth-shell">
+    <section class="auth-copy">
+      <span class="eyebrow">Welcome</span>
+      <h1>Your next meal is only a few clicks away.</h1>
+      <p>Create a demo account for faster checkout, or use the admin demo account to open the dashboard.</p>
+      <div class="auth-demo-box">
+        <strong>Admin Demo Login</strong>
+        <small>Email: admin@urbanbite.in</small>
+        <small>Password: admin123</small>
+      </div>
+    </section>
+
+    <section class="auth-card">
+      <div class="auth-tabs">
+        <button class="active" data-auth-tab="login">Login</button>
+        <button data-auth-tab="signup">Sign Up</button>
+      </div>
+
+      <form id="loginForm" class="auth-form active">
+        <label>Email<input type="email" name="email" required placeholder="you@example.com"></label>
+        <label>Password<input type="password" name="password" required placeholder="••••••••"></label>
+        <button class="btn btn-primary full" type="submit">Login</button>
+        <p class="auth-note">User accounts are stored in your browser using localStorage.</p>
+      </form>
+
+      <form id="signupForm" class="auth-form">
+        <label>Full Name<input type="text" name="name" required placeholder="Your name"></label>
+        <label>Email<input type="email" name="email" required placeholder="you@example.com"></label>
+        <label>Phone<input type="tel" name="phone" required placeholder="Mobile number"></label>
+        <label>Password<input type="password" name="password" required minlength="6"
+            placeholder="Minimum 6 characters"></label>
+        <button class="btn btn-primary full" type="submit">Create Account</button>
+      </form>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="auth.js"></script>
+</body>
+
+</html>
